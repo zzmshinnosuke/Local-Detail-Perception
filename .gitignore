@@ -24,3 +24,7 @@ snapshot/
 *.pyc
 .DS_Store
 .gitignore~
+
+datasets/*
+
+resnet_pretrained_model/*

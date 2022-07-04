@@ -29,7 +29,7 @@ print('CUDA:', os.environ['CUDA_VISIBLE_DEVICES'])
 def segment_main(**kwargs):
     mode = kwargs['mode']
 
-    mu = FLAGS.mean
+    mu = (104.00698793, 116.66876762, 122.67891434) #FLAGS.mean
 
     if FLAGS.ignore_class_bg:
         nSketchClasses = FLAGS.nSketchClasses - 1
@@ -62,7 +62,7 @@ def segment_main(**kwargs):
     snapshot_dir = os.path.join(FLAGS.outputs_base_dir, FLAGS.snapshot_folder_name)
     os.makedirs(snapshot_dir, exist_ok=True)
     snapshot_dir = os.path.join(snapshot_dir, kwargs['run_name'])
-    os.makedirs(snapshot_dir, exist_ok=(mode != 'train'))
+    os.makedirs(snapshot_dir, exist_ok=(mode == 'train'))
 
     ckpt = tf.train.get_checkpoint_state(snapshot_dir)
     if not ckpt and not kwargs['ckpt_file']:
@@ -360,7 +360,7 @@ if __name__ == "__main__":
                         default=1, help="use dense crf or not")
     parser.add_argument('--edgelist', '-el', type=int, choices=[0, 1],
                         default=0, help="use edgelist or not")
-    parser.add_argument('--run_name', '-rn', type=str, help="run name")
+    parser.add_argument('--run_name', '-rn', default='LDP', type=str, help="run name")
     parser.add_argument('--ckpt_file', '-cf', type=str, 
                         default=None, help="checkpoint file to restore (without suffix)")
 

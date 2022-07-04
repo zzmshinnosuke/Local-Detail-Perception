@@ -10,9 +10,7 @@ dependencies:
   - tensorflow-hub
   - numpy
   - pillow
-  - pydensecrf
   - nomkl
   - scikit-learn
-  - cairocffi
   - matplotlib
   - opencv

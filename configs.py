@@ -22,8 +22,8 @@ tf.app.flags.DEFINE_integer(
 ############################################
 #      common dir / filepath / params
 ############################################
-tf.app.flags.DEFINE_float(
-    'mean', (104.00698793, 116.66876762, 122.67891434), 'The mean array')
+# tf.app.flags.DEFINE_float(
+#     'mean', (104.00698793, 116.66876762, 122.67891434), 'The mean array')
 
 tf.app.flags.DEFINE_string(
     'outputs_base_dir', 'outputs',
@@ -35,7 +35,7 @@ tf.app.flags.DEFINE_string(
 
 tf.app.flags.DEFINE_string(
     'data_base_dir',
-    './datasets/SketchyScene/',
+    './datasets/SKY-Scene/',
     'The folder of train_images')
 
 ############################################
