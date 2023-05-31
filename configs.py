@@ -4,19 +4,19 @@ import tensorflow as tf
 #           dataset params
 ############################################
 tf.app.flags.DEFINE_integer(
-    'nSketchClasses', 47,
+    'nSketchClasses', 41,
     'The number of sketch classes.')
 
 tf.app.flags.DEFINE_integer(
-    'nTrainImgs', 5617,
+    'nTrainImgs', 9115,
     'The number of sketch classes.')
 
 tf.app.flags.DEFINE_integer(
-    'nValImgs', 535,
+    'nValImgs', 3000,
     'The number of sketch classes.')
 
 tf.app.flags.DEFINE_integer(
-    'nTestImgs', 1113,
+    'nTestImgs', 3000,
     'The number of sketch classes.')
 
 ############################################
@@ -35,7 +35,7 @@ tf.app.flags.DEFINE_string(
 
 tf.app.flags.DEFINE_string(
     'data_base_dir',
-    './datasets/SKY-Scene/',
+    './datasets/SFSD-LDP/',
     'The folder of train_images')
 
 ############################################

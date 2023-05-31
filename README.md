@@ -1,3 +1,6 @@
+# 20230524
+运行的时候一直Killed，后来发现是内存超了，加载数据的时候需要30G左右的内存，就先把gy的程序杀死了，可以跑起来了。
+
 # 20220704
 在3090上不行，会卡在一个地方很长时间，开始运行后，loss会变成NAN。在2080ti和titan上可以正常运行，cuda10.1和environment中的tensorflow1.15版本匹配。3090只能支持cuda11.1以上的版本，以后不在上面瞎尝试了，没有一次成功的。最后titan上这两天没人用，完全转移到titan上跑。   
 安装过程中可以使用`conda env create -f environment.yml`进行安装，但是会提示pydensecrf和cairocffi找不到的错误，可以从environment中删除了这两项，其中cairocffi好像没啥用，没按也没影响，pydensecrf可以按以下命令安装。  

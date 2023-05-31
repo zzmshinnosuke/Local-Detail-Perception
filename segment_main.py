@@ -21,13 +21,13 @@ from semantic_visualize import visualize_semantic_segmentation
 from edgelist_utils import refine_label_with_edgelist
 
 
-if 'CUDA_VISIBLE_DEVICES' not in os.environ.keys():
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-print('CUDA:', os.environ['CUDA_VISIBLE_DEVICES'])
+# if 'CUDA_VISIBLE_DEVICES' not in os.environ.keys():
+#     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+# print('CUDA:', os.environ['CUDA_VISIBLE_DEVICES'])
 
 
 def segment_main(**kwargs):
-    mode = kwargs['mode']
+    mode = 'test' # kwargs['mode']
 
     mu = (104.00698793, 116.66876762, 122.67891434) #FLAGS.mean
 
@@ -54,15 +54,15 @@ def segment_main(**kwargs):
 
     tfconfig = tf.ConfigProto()
     tfconfig.gpu_options.allow_growth = True
-    os.system('sudo nvidia-smi -i %s -c 0' % os.environ['CUDA_VISIBLE_DEVICES'])
+#     os.system('sudo nvidia-smi -i %s -c 0' % os.environ['CUDA_VISIBLE_DEVICES'])
     sess = tf.Session(config=tfconfig)
-    os.system('sudo nvidia-smi -i %s -c 2' % os.environ['CUDA_VISIBLE_DEVICES'])
+#     os.system('sudo nvidia-smi -i %s -c 2' % os.environ['CUDA_VISIBLE_DEVICES'])
     sess.run(tf.global_variables_initializer())
 
     snapshot_dir = os.path.join(FLAGS.outputs_base_dir, FLAGS.snapshot_folder_name)
     os.makedirs(snapshot_dir, exist_ok=True)
     snapshot_dir = os.path.join(snapshot_dir, kwargs['run_name'])
-    os.makedirs(snapshot_dir, exist_ok=(mode == 'train'))
+    os.makedirs(snapshot_dir, exist_ok=(mode == 'test'))
 
     ckpt = tf.train.get_checkpoint_state(snapshot_dir)
     if not ckpt and not kwargs['ckpt_file']:
@@ -219,6 +219,12 @@ def segment_main(**kwargs):
 
             # ignore background pixel prediction (was random)
             # must before edgelist
+            
+            # 保存预测label，用于后续可视化草图，和计算准确率。
+#             print(type(pred_label), pred_label.shape)
+            save_path = os.path.join('./SFSD_LDP_result', "sample_{}_class.npy".format(imgIndex))
+            np.save(save_path, pred_label)
+            
             pred_label[gt_label == 0] = 0
             if use_edgelist:
                 pred_label = \
@@ -365,6 +371,8 @@ if __name__ == "__main__":
                         default=None, help="checkpoint file to restore (without suffix)")
 
     args = parser.parse_args()
+#     while len(sys.argv) > 1:
+#         sys.argv.pop()
 
     if args.mode == 'inference' and args.image_id == -1:
         z = input('If inference all? [y/n]: ')
@@ -383,5 +391,6 @@ if __name__ == "__main__":
         "run_name": args.run_name,
         "ckpt_file": args.ckpt_file
     }
-
+    
+    
     segment_main(**run_params)
